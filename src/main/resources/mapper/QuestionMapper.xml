@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.surveyor.mapper.QuestionMapper">
+  <resultMap id="BaseResultMap" type="com.surveyor.pojo.Question">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="surveyId" jdbcType="VARCHAR" property="surveyid" />
+    <result column="sequence" jdbcType="INTEGER" property="sequence" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="must" property="must" jdbcType="BIT" />
+    <result column="choicea" jdbcType="VARCHAR" property="choicea" />
+    <result column="choiceb" jdbcType="VARCHAR" property="choiceb" />
+    <result column="choicec" jdbcType="VARCHAR" property="choicec" />
+    <result column="choiced" jdbcType="VARCHAR" property="choiced" />
+    <result column="choicee" jdbcType="VARCHAR" property="choicee" />
+    <result column="upLimit" jdbcType="INTEGER" property="uplimit" />
+    <result column="lowLimit" jdbcType="INTEGER" property="lowlimit" />
+  </resultMap>
+    <select id="getTotalBySurvey" resultType="Integer" parameterType="String">
+  
+  	select count(*) from question q
+  	where 
+  	    surveyid = #{surveyId}
+  
+  </select>
+      <select id="queryBySurvey" resultMap="BaseResultMap"  parameterType="String">
+  
+  	select * from question q
+  	where 
+  	    surveyid = #{surveyId}
+  
+  </select>
+</mapper>
