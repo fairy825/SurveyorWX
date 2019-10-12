@@ -32,7 +32,7 @@ public class Answer {
      * 作答者是谁
      */
     @Column(name = "userId")
-    private Integer userid;
+    private String userid;
 
     /**
      * @return id
@@ -125,7 +125,7 @@ public class Answer {
      *
      * @return userId - 作答者是谁
      */
-    public Integer getUserid() {
+    public String getUserid() {
         return userid;
     }
 
@@ -134,7 +134,7 @@ public class Answer {
      *
      * @param userid 作答者是谁
      */
-    public void setUserid(Integer userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 }

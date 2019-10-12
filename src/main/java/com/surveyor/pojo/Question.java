@@ -68,6 +68,15 @@ public class Question {
      * 多选题的选择下限
      */
     private Integer lowlimit;
+    /**
+     * 量表题的打分上限
+     */
+    private Integer upscale;
+
+	/**
+     * 量表题的打分下限
+     */
+    private Integer lowscale;
 
     @Transient
     private String typeDesc;
@@ -305,4 +314,26 @@ public class Question {
 	public void setLowlimit(Integer lowlimit) {
 		this.lowlimit = lowlimit;
 	}
+
+
+	public Integer getUpscale() {
+		return upscale;
+	}
+
+
+	public void setUpscale(Integer upscale) {
+		this.upscale = upscale;
+	}
+
+
+	public Integer getLowscale() {
+		return lowscale;
+	}
+
+
+	public void setLowscale(Integer lowscale) {
+		this.lowscale = lowscale;
+	}
+
+
 }

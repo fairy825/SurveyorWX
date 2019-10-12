@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.surveyor.pojo.Question;
+import com.surveyor.pojo.Survey;
 import com.surveyor.service.QuestionService;
 import com.surveyor.service.SurveyService;
 import com.surveyor.utils.IMoocJSONResult;
+import com.surveyor.utils.PagedResult;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,15 +41,13 @@ public class QuestionController extends BasicController{
 //	}
 //	
 //	
-//	//删除问卷
-//	@ApiOperation(value="删除问卷", notes="删除问卷的接口")
-//    @PostMapping("/delete")
-//    public IMoocJSONResult deleteSurvey(@RequestParam("id")Integer id){
-//    	Survey survey =new Survey();
-//    	survey.setStatus(0);
-//    	surveyService.update(survey);
-//		return IMoocJSONResult.ok(survey);
-//    }
+	//删除问题
+	@ApiOperation(value="删除问题", notes="删除问题的接口")
+    @PostMapping("/delete")
+    public IMoocJSONResult delete(@RequestParam("id")String id){
+    	questionService.delete(id);
+		return IMoocJSONResult.ok();
+    }
 //
 //	//通过发布用户id确定他发布的问卷
 ////	@ApiOperation(value="查当前用户发出的问卷", notes="查当前用户发出的问卷的接口")
@@ -94,10 +94,15 @@ public class QuestionController extends BasicController{
 	//通过发布问卷id查找问题
 	@ApiOperation(value="查找某一张问卷下的问题", notes="查找某问卷下的所有问题的接口")
 	@PostMapping("/queryAll")
-    public IMoocJSONResult queryAll(@RequestParam("surveyId")String surveyId){
-		List<Question> questions = questionService.queryBySurvey(surveyId);
-		return IMoocJSONResult.ok(questions);
+    public IMoocJSONResult queryAll(@RequestParam("surveyId")String surveyId, Integer page){
+		if(page == null){
+			page = 1;
+		}
+		PagedResult pagedResult = questionService.queryBySurvey(surveyId,page, PAGE_SIZE);
+//		List<Question> questions = questionService.queryBySurvey(surveyId);
+		return IMoocJSONResult.ok(pagedResult);
     }
+
 	
 	@ApiOperation(value="查找问题", notes="查找问题的接口")
 	@PostMapping("/queryOne")

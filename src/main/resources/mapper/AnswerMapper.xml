@@ -12,5 +12,14 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="userId" jdbcType="VARCHAR" property="userid" />
   </resultMap>
+  
+   <select id="selectBySurveyIdAndUserId" resultMap="BaseResultMap"  parameterType="String">
+  
+  	select * from answer
+  	where 
+  	    surveyid = #{surveyId}
+  	    and userid = #{userId}
+  
+  </select>
 
 </mapper>

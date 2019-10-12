@@ -18,6 +18,9 @@
     <result column="choicee" jdbcType="VARCHAR" property="choicee" />
     <result column="upLimit" jdbcType="INTEGER" property="uplimit" />
     <result column="lowLimit" jdbcType="INTEGER" property="lowlimit" />
+    <result column="upScale" jdbcType="INTEGER" property="upscale" />
+    <result column="lowScale" jdbcType="INTEGER" property="lowscale" />
+    
   </resultMap>
     <select id="getTotalBySurvey" resultType="Integer" parameterType="String">
   
@@ -31,6 +34,14 @@
   	select * from question q
   	where 
   	    surveyid = #{surveyId}
+  
+  </select>
+  <select id="getQuestionIdBySurveyAndSequency" resultType="String">
+  
+  	select id from question q
+  	where 
+  	    surveyid = #{surveyId}
+  	    and sequence= #{sequence}
   
   </select>
 </mapper>

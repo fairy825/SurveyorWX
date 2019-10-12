@@ -8,5 +8,6 @@ import com.surveyor.utils.MyMapper;
 public interface QuestionMapper extends MyMapper<Question> {
 	public Integer getTotalBySurvey(String surveyId);
 	public List<Question> queryBySurvey(String surveyId);
+	public String getQuestionIdBySurveyAndSequency(String surveyId, Integer sequence);
 
 }

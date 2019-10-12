@@ -11,6 +11,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.surveyor.mapper.AnswerMapper;
 import com.surveyor.mapper.AnswerMapperCustom;
+import com.surveyor.pojo.Answer;
+import com.surveyor.pojo.Survey;
 import com.surveyor.pojo.vo.AnswerVO;
 import com.surveyor.service.AnswerService;
 import com.surveyor.utils.PagedResult;
@@ -45,5 +47,38 @@ public class AnswerServiceImpl implements AnswerService {
 		return pagedResult;
 	}
 	
+	@Transactional(propagation= Propagation.REQUIRED)
+    @Override
+    public String add(Answer a) {
+		String id = sid.nextShort();
+		a.setId(id);
+		answerMapper.insertSelective(a);
+		return id;
+    }
+	
+	
+	@Transactional(propagation= Propagation.REQUIRED)
+    @Override
+    public void delete(String id) {
+		answerMapper.deleteByPrimaryKey(id);
+    }
+	
+	@Transactional(propagation= Propagation.REQUIRED)
+    @Override
+    public void update(Answer a) {
+		answerMapper.updateByPrimaryKeySelective(a);
+    }
+	
+	@Transactional(propagation= Propagation.SUPPORTS)
+    @Override
+    public Answer get(String id) {
+        return answerMapper.selectByPrimaryKey(id);
+    }
+	
+	@Transactional(propagation= Propagation.SUPPORTS)
+    @Override
+	public List<Answer> queryBySurveyAndUser(String surveyId, String userId){
+		return answerMapper.selectBySurveyIdAndUserId(surveyId,userId);
+	}
 	
 }
