@@ -2,7 +2,10 @@ package com.surveyor.controller;
 
 
 import java.util.List;
+
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.surveyor.pojo.Answer;
+import com.surveyor.pojo.DetectQuestion;
 import com.surveyor.pojo.Question;
 import com.surveyor.service.AnswerService;
 import com.surveyor.service.QuestionService;
+import com.surveyor.service.DetectQuestionService;
 import com.surveyor.utils.IMoocJSONResult;
 import com.surveyor.utils.PagedResult;
 
@@ -30,7 +35,10 @@ public class AnswerController extends BasicController{
 	AnswerService answerService;
 
 	@Autowired
-	QuestionService questionService;
+	QuestionService questionService;	
+	
+	@Autowired
+	DetectQuestionService detectQuestionService;
 
 	//通过发布问卷id查找问题
 	@ApiOperation(value="查找我作答的问卷", notes="查找我作答的问卷的接口")
@@ -46,24 +54,42 @@ public class AnswerController extends BasicController{
 	@ApiOperation(value="提交问卷", notes="提交问卷的接口")
     @PostMapping("/upload")
     public IMoocJSONResult upload(@RequestParam("userId") String userId,String surveyId,@RequestBody Map<String,Object> answ){
+		List<Answer> answers = answerService.queryBySurveyAndUser(surveyId, userId);
+		if(answers.size()!=0) 	
+			return IMoocJSONResult.errorMsg("您已答过该问卷");
+
 		System.out.println("answ:"+answ);
 		
 		Map<String,Object> answ1=(Map<String, Object>) answ.get("answ");
 		String answerId = null;
 			for(String questionId :answ1.keySet()) {
-				String an =  answ1.get(questionId).toString();
-				System.out.println(an);
-				Answer answer=new Answer();
-				answer.setSurveyid(surveyId);
-				answer.setUserid(userId);
-				answer.setContent(an);
-				answer.setSequence(0);
-	//			String questionId=questionService.getQuestionIdBySurveyAndSequency(surveyId, i);
-				answer.setQuestionid(questionId);
-				answerService.add(answer);
+				Question q = questionService.get(questionId);
+				if(q==null) {//测谎题
+					DetectQuestion dQuestion = detectQuestionService.get(questionId);
+					String an =  answ1.get(questionId).toString();
+					System.out.println(an);
+					//答错
+					if(!an.equalsIgnoreCase(dQuestion.getAnswer())) 
+						return IMoocJSONResult.errorMsg("测谎题错误，提交失败！");
+				}
 			}
-		
-		return IMoocJSONResult.ok();
+			for(String questionId :answ1.keySet()) {
+				Question q = questionService.get(questionId);
+				if(q!=null) {//普通题
+					String an =  answ1.get(questionId).toString();
+					System.out.println(an);
+					Answer answer=new Answer();
+					answer.setSurveyid(surveyId);
+					answer.setUserid(userId);
+					answer.setContent(an);
+					answer.setSequence(0);
+					answer.setQuestionid(questionId);
+					answerService.add(answer);
+				}
+			}
+		long end = System.currentTimeMillis();
+		String start =  redis.get(START_TIME + ":" + userId);
+		return IMoocJSONResult.ok(end-Long.valueOf(start));
     }
 	
 	@ApiOperation(value="查找某个回答者的答案", notes="查找某个回答者的答案的接口")

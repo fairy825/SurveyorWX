@@ -83,7 +83,8 @@ public class QuestionVO {
     private Integer lowscale;
 //    @Transient
 	private List choices;
-
+//  @Transient
+	private boolean detect;
 	@Transient
     private String typeDesc;
     
@@ -352,4 +353,11 @@ public class QuestionVO {
 	public void setLowscale(Integer lowscale) {
 		this.lowscale = lowscale;
 	}
+	public boolean isDetect() {
+		return detect;
+	}
+	public void setDetect(boolean detect) {
+		this.detect = detect;
+	}
+
 }

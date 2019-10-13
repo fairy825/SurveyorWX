@@ -61,8 +61,11 @@ public class Survey {
      */
     @Column(name = "hadPaper")
     private Integer hadpaper; 
-    
-    private Boolean anony;
+    @Column(name = "minTime")
+    private Integer mintime;
+   
+
+	private Boolean anony;
     @Column(name = "testLie")
     private Boolean testlie;
 
@@ -286,4 +289,11 @@ public class Survey {
     public void settestlie(Boolean testlie) {
         this.testlie = testlie;
     }
+    public Integer getMintime() {
+		return mintime;
+	}
+
+	public void setMintime(Integer mintime) {
+		this.mintime = mintime;
+	}
 }

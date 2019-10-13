@@ -18,6 +18,7 @@
     <result column="hadPaper" jdbcType="INTEGER" property="hadpaper" />
     <result column="anony" property="anony" jdbcType="BIT" />
     <result column="testLie" property="testlie" jdbcType="BIT" />
+    <result column="minTime" property="mintime" jdbcType="INTEGER" />
   </resultMap>
   <select id="queryAllSurvey" resultMap="BaseResultMap" parameterType="String">
   

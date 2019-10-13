@@ -1,6 +1,7 @@
 package com.surveyor.service.impl;
 import java.util.List;
 
+
 import org.n3r.idworker.Sid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ import com.surveyor.pojo.Survey;
 import com.surveyor.pojo.vo.AnswerVO;
 import com.surveyor.service.AnswerService;
 import com.surveyor.utils.PagedResult;
+
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 @Service
 public class AnswerServiceImpl implements AnswerService {
@@ -78,7 +82,14 @@ public class AnswerServiceImpl implements AnswerService {
 	@Transactional(propagation= Propagation.SUPPORTS)
     @Override
 	public List<Answer> queryBySurveyAndUser(String surveyId, String userId){
-		return answerMapper.selectBySurveyIdAndUserId(surveyId,userId);
+		Example example = new Example(Answer.class);
+		Criteria criteria = example.createCriteria();
+		
+		criteria.andEqualTo("userid", userId);
+		criteria.andEqualTo("surveyid", surveyId);
+		
+		return answerMapper.selectByExample(example);
+//		return answerMapper.selectBySurveyIdAndUserId(surveyId,userId);
 	}
 	
 }
