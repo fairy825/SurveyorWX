@@ -104,8 +104,12 @@ public class QuestionController extends BasicController{
 		if(page == null){
 			page = 1;
 		}
-		PagedResult pagedResult = questionService.queryBySurveyWithDetect(surveyId,page, PAGE_SIZE);
-		
+		PagedResult pagedResult = null;
+		if(surveyService.get(surveyId).getTestlie())
+			pagedResult = questionService.queryBySurveyWithDetect(surveyId,page, PAGE_SIZE);
+		else {
+			pagedResult = questionService.queryBySurvey(surveyId, page, PAGE_SIZE);
+		}
 		return IMoocJSONResult.ok(pagedResult);
     }
 	

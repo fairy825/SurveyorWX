@@ -1,9 +1,12 @@
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\mapper\QuestionMapper.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\BasicController.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\interceptor\SurveyStatusInterceptor.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\QuestionController.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\pojo\Survey.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\DetectQuestionService.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\impl\QuestionServiceImpl.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\RandomCodeStrategy.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\mapper\DetectQuestionMapper.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\utils\IMoocJSONResult.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\pojo\SearchRecords.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\RegistLoginController.java
@@ -16,6 +19,7 @@ D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\Application.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\DayCode.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\utils\MD5Utils.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\QuestionService.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\impl\DetectQuestionServiceImpl.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\interceptor\MiniInterceptor.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\strategy\DefaultRandomCodeStrategy.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\Sid.java
@@ -58,5 +62,6 @@ D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\utils\MyMapper.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\utils\Ip.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\SurveyService.java
 D:\eclipseProject\SurveyorWX\src\main\java\comparator\SurveyCountComparator.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\pojo\DetectQuestion.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\mapper\UsersMapper.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\impl\SurveyServiceImpl.java

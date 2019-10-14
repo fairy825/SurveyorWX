@@ -61,7 +61,13 @@ public class AnswerController extends BasicController{
 		List<Answer> answers = answerService.queryBySurveyAndUser(surveyId, userId);
 		if(answers.size()!=0) 	
 			return IMoocJSONResult.errorMsg("您已答过该问卷");
-
+		long end = System.currentTimeMillis();
+		String start =  redis.get(START_TIME + ":" + userId);
+		long ansTime = end-Long.valueOf(start);
+		int minTime = surveyService.get(surveyId).getMintime();
+		if (ansTime <= 1000 * 60 * minTime)
+			return IMoocJSONResult.errorMsg("提交过快，请认真填写！");
+		
 		System.out.println("answ:"+answ);
 		
 		Map<String,Object> answ1=(Map<String, Object>) answ.get("answ");
@@ -92,9 +98,8 @@ public class AnswerController extends BasicController{
 				}
 			}
 		surveyService.addPaper(surveyId);
-		long end = System.currentTimeMillis();
-		String start =  redis.get(START_TIME + ":" + userId);
-		return IMoocJSONResult.ok(end-Long.valueOf(start));
+		return IMoocJSONResult.ok();
+		
     }
 	
 	@ApiOperation(value="查找某个回答者的答案", notes="查找某个回答者的答案的接口")
