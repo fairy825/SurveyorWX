@@ -124,6 +124,7 @@ public class QuestionServiceImpl implements QuestionService {
 				dQuestionVO.setChoices(dQuestionVO.getChoices());
 				dQuestionVO.setDetect(true);
 				dQuestionVO.setType(QuestionService.one);
+				dQuestionVO.setMust(true);
 				System.out.println(dQuestionVO);
 				System.out.println(dQuestionVO.getChoices());
 				

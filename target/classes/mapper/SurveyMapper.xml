@@ -32,6 +32,9 @@
   	order by publish_time desc
   
   </select> 
+  <update id="addPaper" parameterType="String">
+  	update survey set hadPaper=hadPaper+1 where id=#{id}
+  </update>
   
   <select id="queryByUser" resultMap="BaseResultMap" parameterType="String">
   

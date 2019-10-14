@@ -39,6 +39,20 @@ public class SurveyServiceImpl implements SurveyService {
 		return searchRecordsMapper.getHotWords();
 	}
 	
+    @Transactional(propagation= Propagation.REQUIRED)
+	@Override
+	public void addPaper(String id) {
+		surveyMapper.addPaper(id);
+		Survey survey = surveyMapper.selectByPrimaryKey(id);
+
+		if(survey.getHadpaper().equals(survey.getNeedpaper())) {
+			survey.setStatus(3);//改为已完成的状态
+			System.out.println(survey.getStatus());
+
+			surveyMapper.updateByPrimaryKeySelective(survey);
+		}
+	}
+    
 	@Transactional(propagation= Propagation.SUPPORTS)
 	@Override
 	public PagedResult getAllSurveys(Survey survey, Integer sort,Integer isSaveRecord, Integer page, Integer pageSize) {

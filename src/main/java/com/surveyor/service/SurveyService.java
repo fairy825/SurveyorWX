@@ -15,6 +15,7 @@ public interface SurveyService {
     void update(Survey s);
     Survey get(String id);
     void suspend(String id);
+    void addPaper(String id);
 //    void updateTitle(String title,Integer id);
 //    void updateEnd(Date end,Integer id);
 //    void updateStatus(Integer status,Integer id);

@@ -19,6 +19,7 @@ import com.surveyor.pojo.DetectQuestion;
 import com.surveyor.pojo.Question;
 import com.surveyor.service.AnswerService;
 import com.surveyor.service.QuestionService;
+import com.surveyor.service.SurveyService;
 import com.surveyor.service.DetectQuestionService;
 import com.surveyor.utils.IMoocJSONResult;
 import com.surveyor.utils.PagedResult;
@@ -36,6 +37,9 @@ public class AnswerController extends BasicController{
 
 	@Autowired
 	QuestionService questionService;	
+	
+	@Autowired
+	SurveyService surveyService;	
 	
 	@Autowired
 	DetectQuestionService detectQuestionService;
@@ -87,6 +91,7 @@ public class AnswerController extends BasicController{
 					answerService.add(answer);
 				}
 			}
+		surveyService.addPaper(surveyId);
 		long end = System.currentTimeMillis();
 		String start =  redis.get(START_TIME + ":" + userId);
 		return IMoocJSONResult.ok(end-Long.valueOf(start));
