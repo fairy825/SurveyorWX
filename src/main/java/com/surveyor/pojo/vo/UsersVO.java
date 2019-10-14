@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class UsersVO {
     
     private String id;
-	
+	private Float point;
 	private String userToken;
 	
     /**
@@ -102,4 +102,12 @@ public class UsersVO {
 	public void setUserToken(String userToken) {
 		this.userToken = userToken;
 	}
+	public Float getPoint() {
+		return point;
+	}
+
+	public void setPoint(float point) {
+		this.point = point;
+	}
+
 }

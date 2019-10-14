@@ -6,6 +6,8 @@ public class Users {
     @Id
     private String id;
 
+	private Float point;
+
     /**
      * 用户名
      */
@@ -88,4 +90,12 @@ public class Users {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+	public Float getPoint() {
+		return point;
+	}
+
+	public void setPoint(float point) {
+		this.point = point;
+	}
+
 }

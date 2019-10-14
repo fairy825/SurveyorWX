@@ -135,7 +135,7 @@ public class SurveyServiceImpl implements SurveyService {
     public String add(Survey survey) {
 		String id = sid.nextShort();
 		survey.setId(id);
-		surveyMapper.insertSelective(survey);
+		surveyMapper.insert(survey);
 		return id;
     }
 	
@@ -149,7 +149,7 @@ public class SurveyServiceImpl implements SurveyService {
 	@Transactional(propagation= Propagation.REQUIRED)
     @Override
     public void update(Survey s) {
-		surveyMapper.updateByPrimaryKeySelective(s);
+		surveyMapper.updateByPrimaryKey(s);
     }
 	
 	@Transactional(propagation= Propagation.SUPPORTS)

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.User;
 import com.surveyor.mapper.UsersMapper;
 import com.surveyor.pojo.Users;
 
@@ -19,6 +20,15 @@ public class UserServiceImpl implements UserService {
 	private UsersMapper usersMapper;
 	@Autowired
 	private Sid sid;
+	
+	@Transactional(propagation= Propagation.REQUIRED)
+	@Override
+	public void addPoint(String userId,float point) {
+		Users user = usersMapper.selectByPrimaryKey(userId);
+		user.setPoint(user.getPoint()+point);
+		usersMapper.updateByPrimaryKeySelective(user);
+	}
+
 	
 	@Transactional(propagation= Propagation.SUPPORTS)
 	@Override
@@ -34,6 +44,7 @@ public class UserServiceImpl implements UserService {
 	public void saveUser(Users user) {
 		String userId = sid.nextShort();
 		user.setId(userId);
+		user.setPoint(20);
 		usersMapper.insert(user);
 	}
 	

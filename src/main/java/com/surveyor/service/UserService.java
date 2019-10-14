@@ -7,5 +7,6 @@ public interface UserService {
 	public void saveUser(Users user);
 	public Users queryUserForLogin(String username,String password);
 	public void updateUserInfo(Users user);
+	public void addPoint(String userId,float point);
 	public Users queryUserInfo(String userId);
 }
