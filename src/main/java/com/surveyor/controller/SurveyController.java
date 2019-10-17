@@ -35,10 +35,10 @@ import io.swagger.annotations.ApiOperation;
 @Api(value="问卷相关业务的接口", tags= {"问卷相关业务的controller"})
 @RequestMapping("/survey")
 public class SurveyController extends BasicController{
-	
+
 	@Autowired
 	SurveyService surveyService;
-	
+
 	@PostMapping(value="/showAll")
 	public IMoocJSONResult showAll(@RequestBody Survey survey ,Integer sort,Integer isSaveRecord, Integer page) throws Exception {
 		if(page == null){
@@ -47,19 +47,19 @@ public class SurveyController extends BasicController{
 		PagedResult pagedResult = surveyService.getAllSurveys(survey,sort,isSaveRecord,page, PAGE_SIZE);
 		return IMoocJSONResult.ok(pagedResult);
 	}
-	
+
 	@PostMapping(value="/hot")
 	public IMoocJSONResult hot(){
 		return IMoocJSONResult.ok(surveyService.getHotWords());
 	}
-	
+
 	//删除问卷
 	@ApiOperation(value="删除问卷", notes="删除问卷的接口")
     @PostMapping("/delete")
     public IMoocJSONResult deleteSurvey(@RequestParam("id")String id){
     	Survey survey =new Survey();
     	survey.setStatus(0);
-    	survey.setId(id);;
+    	survey.setId(id);
     	surveyService.update(survey);
 		return IMoocJSONResult.ok(survey);
     }
@@ -70,7 +70,7 @@ public class SurveyController extends BasicController{
     public IMoocJSONResult getSurveyByUserAndStatus(@RequestParam("userId")String userId,@RequestParam("status")Integer status,Integer page){
 		if(page == null){
 			page = 1;
-		}	
+		}
 		PagedResult pagedResult = surveyService.getSurveyByUserAndStatus(userId ,status,page, PAGE_SIZE);
 		return IMoocJSONResult.ok(pagedResult);
     }
@@ -115,7 +115,7 @@ public class SurveyController extends BasicController{
 		return IMoocJSONResult.ok(surveyId);
 
     }
-	
+
 	//更新问卷
 	@ApiOperation(value="更新问卷", notes="更新问卷的接口")
     @PostMapping("/update")
@@ -136,5 +136,5 @@ public class SurveyController extends BasicController{
 //                          @RequestParam("title") String title){
 //        surveyService.newSurvey(need, status, title);
 //    }
-	
+
 }
