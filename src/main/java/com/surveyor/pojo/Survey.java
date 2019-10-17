@@ -1,7 +1,14 @@
 package com.surveyor.pojo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Survey {
     @Id
@@ -48,12 +55,14 @@ public class Survey {
      * 发布时间
      */
     @Column(name = "publish_time")
+    @JsonFormat( pattern="yyyy-MM-dd HH:mm:ss")
     private Date publishTime;
 
     /**
      * 截止时间
      */
     @Column(name = "end_time")
+    @JsonFormat( pattern="yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
     /**
@@ -61,8 +70,11 @@ public class Survey {
      */
     @Column(name = "hadPaper")
     private Integer hadpaper; 
-    
-    private Boolean anony;
+    @Column(name = "minTime")
+    private Integer mintime;
+   
+
+	private Boolean anony;
     @Column(name = "testLie")
     private Boolean testlie;
 
@@ -211,6 +223,7 @@ public class Survey {
      *
      * @return publish_time - 发布时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Shanghai")
     public Date getPublishTime() {
         return publishTime;
     }
@@ -229,6 +242,7 @@ public class Survey {
      *
      * @return end_time - 截止时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Shanghai")
     public Date getEndTime() {
         return endTime;
     }
@@ -238,8 +252,21 @@ public class Survey {
      *
      * @param endTime 截止时间
      */
+    
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public void setEndTime(String endTime) {
+    	endTime+=":00";
+    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date sDate = null;
+		try {
+			sDate = sdf.parse(endTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        this.endTime = sDate;
     }
 
     /**
@@ -286,4 +313,11 @@ public class Survey {
     public void settestlie(Boolean testlie) {
         this.testlie = testlie;
     }
+    public Integer getMintime() {
+		return mintime;
+	}
+
+	public void setMintime(Integer mintime) {
+		this.mintime = mintime;
+	}
 }

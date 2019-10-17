@@ -18,6 +18,7 @@
     <result column="hadPaper" jdbcType="INTEGER" property="hadpaper" />
     <result column="anony" property="anony" jdbcType="BIT" />
     <result column="testLie" property="testlie" jdbcType="BIT" />
+    <result column="minTime" property="mintime" jdbcType="INTEGER" />
   </resultMap>
   <select id="queryAllSurvey" resultMap="BaseResultMap" parameterType="String">
   
@@ -31,6 +32,9 @@
   	order by publish_time desc
   
   </select> 
+  <update id="addPaper" parameterType="String">
+  	update survey set hadPaper=hadPaper+1 where id=#{id}
+  </update>
   
   <select id="queryByUser" resultMap="BaseResultMap" parameterType="String">
   

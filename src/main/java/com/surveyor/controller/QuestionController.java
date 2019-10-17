@@ -3,6 +3,9 @@ package com.surveyor.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -91,18 +94,36 @@ public class QuestionController extends BasicController{
 		return IMoocJSONResult.ok(question);
 
     }
-	//通过发布问卷id查找问题
+	//通过发布问卷id查找问题 回答问题页面
 	@ApiOperation(value="查找某一张问卷下的问题", notes="查找某问卷下的所有问题的接口")
 	@PostMapping("/queryAll")
-    public IMoocJSONResult queryAll(@RequestParam("surveyId")String surveyId, Integer page){
+    public IMoocJSONResult queryAll(@RequestParam("surveyId")String surveyId,String userId, Integer page){
+		long start = System.currentTimeMillis();
+		if(userId!=null)
+		redis.set(START_TIME + ":" + userId, start+"", 1000 * 60 * 30);
+		if(page == null){
+			page = 1;
+		}
+		PagedResult pagedResult = null;
+		if(surveyService.get(surveyId).getTestlie())
+			pagedResult = questionService.queryBySurveyWithDetect(surveyId,page, PAGE_SIZE);
+		else {
+			pagedResult = questionService.queryBySurvey(surveyId, page, PAGE_SIZE);
+		}
+		return IMoocJSONResult.ok(pagedResult);
+    }
+	
+	//通过发布问卷id查找问题 edit页面
+	@ApiOperation(value="查找某一张问卷下的问题", notes="查找某问卷下的所有问题的接口")
+	@PostMapping("/queryAllEasy")
+	public IMoocJSONResult queryAllEasy(@RequestParam("surveyId")String surveyId, Integer page){
 		if(page == null){
 			page = 1;
 		}
 		PagedResult pagedResult = questionService.queryBySurvey(surveyId,page, PAGE_SIZE);
-//		List<Question> questions = questionService.queryBySurvey(surveyId);
+			
 		return IMoocJSONResult.ok(pagedResult);
-    }
-
+	}
 	
 	@ApiOperation(value="查找问题", notes="查找问题的接口")
 	@PostMapping("/queryOne")

@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.surveyor.controller.interceptor.MiniInterceptor;
+import com.surveyor.controller.interceptor.SurveyStatusInterceptor;
 
 
 @SuppressWarnings("deprecation")
@@ -25,13 +26,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(miniInterceptor()).addPathPatterns("/user/**");
-//		.addPathPatterns("/bgm/**").addPathPatterns("/video/upload");
+		registry.addInterceptor(surveyStatusInterceptor()).addPathPatterns("/survey/**");
 		super.addInterceptors(registry);
 	}
 
 	@Bean
 	public MiniInterceptor miniInterceptor(){
 		return new MiniInterceptor();
+	}
+	@Bean
+	public SurveyStatusInterceptor surveyStatusInterceptor(){
+		return new SurveyStatusInterceptor();
 	}
 
 }

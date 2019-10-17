@@ -13,6 +13,7 @@ public interface QuestionService {
 	String scale = "scale";
 	public int getTotalBySurvey(String surveyId);
     public PagedResult queryBySurvey(String surveyId ,Integer page,Integer pageSize);
+    public PagedResult queryBySurveyWithDetect(String surveyId ,Integer page,Integer pageSize);
 //	public List<Question> queryBySurvey(String surveyId);
     String add(Question question);
     Question get(String id);

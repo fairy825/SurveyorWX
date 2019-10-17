@@ -15,6 +15,7 @@ import com.surveyor.mapper.SearchRecordsMapper;
 import com.surveyor.mapper.SurveyMapper;
 import com.surveyor.pojo.SearchRecords;
 import com.surveyor.pojo.Survey;
+import com.surveyor.pojo.Users;
 import com.surveyor.service.SurveyService;
 import com.surveyor.utils.PagedResult;
 
@@ -22,6 +23,8 @@ import comparator.SurveyAllComparator;
 import comparator.SurveyCountComparator;
 import comparator.SurveyDateComparator;
 import comparator.SurveyPriceComparator;
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 @Service
 public class SurveyServiceImpl implements SurveyService {
@@ -39,6 +42,47 @@ public class SurveyServiceImpl implements SurveyService {
 		return searchRecordsMapper.getHotWords();
 	}
 	
+    @Transactional(propagation= Propagation.REQUIRED)
+	@Override
+	public void addPaper(String id) {
+		surveyMapper.addPaper(id);
+		Survey survey = surveyMapper.selectByPrimaryKey(id);
+
+		if(survey.getHadpaper().equals(survey.getNeedpaper())) {
+			survey.setStatus(3);//改为已完成的状态
+			System.out.println(survey.getStatus());
+
+			surveyMapper.updateByPrimaryKeySelective(survey);
+		}
+	}
+    
+
+    public boolean end(String id) {
+    	Date date = new Date();
+    	Survey survey = get(id);
+    	if(survey.getEndTime()!=null && date.compareTo(survey.getEndTime())>=0) return true;
+    	return false;
+    }
+    
+
+    public void time2finish(Survey survey) {
+        if(end(survey.getId())) {
+//           	Survey survey = get(id);
+           	survey.setStatus(3);
+    		surveyMapper.updateByPrimaryKey(survey);
+       	}
+    }
+    
+    @Transactional(propagation= Propagation.REQUIRED)
+   	@Override
+    public void updateStatus() {
+        List<Survey> surveys = surveyMapper.selectAll();
+        for(Survey survey:surveys) {
+        	if(survey.getStatus()!=3) {
+        		time2finish(survey);
+        	}
+        }
+    }
 	@Transactional(propagation= Propagation.SUPPORTS)
 	@Override
 	public PagedResult getAllSurveys(Survey survey, Integer sort,Integer isSaveRecord, Integer page, Integer pageSize) {
@@ -91,7 +135,7 @@ public class SurveyServiceImpl implements SurveyService {
     public String add(Survey survey) {
 		String id = sid.nextShort();
 		survey.setId(id);
-		surveyMapper.insertSelective(survey);
+		surveyMapper.insert(survey);
 		return id;
     }
 	
@@ -105,7 +149,7 @@ public class SurveyServiceImpl implements SurveyService {
 	@Transactional(propagation= Propagation.REQUIRED)
     @Override
     public void update(Survey s) {
-		surveyMapper.updateByPrimaryKeySelective(s);
+		surveyMapper.updateByPrimaryKey(s);
     }
 	
 	@Transactional(propagation= Propagation.SUPPORTS)

@@ -1,7 +1,10 @@
 package com.surveyor.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
@@ -12,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.surveyor.mapper.DetectQuestionMapper;
 import com.surveyor.mapper.QuestionMapper;
 import com.surveyor.mapper.SurveyMapper;
+import com.surveyor.pojo.DetectQuestion;
 import com.surveyor.pojo.Question;
 import com.surveyor.pojo.SearchRecords;
 import com.surveyor.pojo.Survey;
@@ -33,7 +38,8 @@ public class QuestionServiceImpl implements QuestionService {
 	private SurveyMapper surveyMapper;
 	@Autowired 
 	private QuestionMapper questionMapper;
-	
+	@Autowired 
+	private DetectQuestionMapper detectQuestionMapper;
 	@Autowired
 	private Sid sid;
 	
@@ -91,6 +97,62 @@ public class QuestionServiceImpl implements QuestionService {
 		
 		return pagedResult;
 	}
+	
+	@Transactional(propagation= Propagation.SUPPORTS)
+	@Override
+	public PagedResult queryBySurveyWithDetect(String surveyId, Integer page, Integer pageSize) {
+		PageHelper.startPage(page, pageSize);
+		List<Question> list = questionMapper.queryBySurvey(surveyId);
+		List<QuestionVO> list2= new ArrayList<>();
+		Map<Integer,DetectQuestion> detectmap = new HashMap<>();//在第几题后放测谎题
+		int detect_total = detectQuestionMapper.getTotal();
+		int question_total = list.size();
+		for(int i =0;i<=list.size()/20;i++) {
+			Random r = new Random();
+			Integer detect_sequence = r.nextInt(detect_total)+1;//detect表里的第id道测谎题
+			int number = r.nextInt(question_total);//放到原问卷的第几题后
+			System.out.println("detect_sequence:"+detect_sequence);
+			System.out.println("number:"+number);
+			DetectQuestion dQuestion = detectQuestionMapper.selectByPrimaryKey(String.valueOf(detect_sequence));
+			detectmap.put(number,dQuestion);
+		}
+		Integer i=0;
+	    for(Question question:list) {
+	    	if(detectmap.containsKey(i)) { 
+				QuestionVO dQuestionVO = new QuestionVO();
+				BeanUtils.copyProperties(detectmap.get(i), dQuestionVO);
+				dQuestionVO.setChoices(dQuestionVO.getChoices());
+				dQuestionVO.setDetect(true);
+				dQuestionVO.setType(QuestionService.one);
+				dQuestionVO.setMust(true);
+				System.out.println(dQuestionVO);
+				System.out.println(dQuestionVO.getChoices());
+				
+				list2.add(dQuestionVO);
+			}
+			QuestionVO questionVO = new QuestionVO();
+			BeanUtils.copyProperties(question, questionVO);
+			questionVO.setChoices(questionVO.getChoices());
+			questionVO.setDetect(false);
+			System.out.println(questionVO);
+			System.out.println(questionVO.getChoices());
+			list2.add(questionVO);
+			
+			i++;
+		}
+		System.out.println(list2);
+
+		PageInfo<QuestionVO> pageList = new PageInfo<>(list2);
+		
+		PagedResult pagedResult = new PagedResult();
+		pagedResult.setPage(page);
+		pagedResult.setTotal(pageList.getPages());
+		pagedResult.setRows(list2);
+		pagedResult.setRecords(pageList.getTotal());
+		
+		return pagedResult;
+	}
+	
 	@Transactional(propagation= Propagation.SUPPORTS)
 	@Override
 	public Question get(String id) {
