@@ -8,19 +8,45 @@ import org.apache.log4j.Logger;
 public class SpssUtils {
 	 public static void main(String[] args) { 
 		   List list1 = new ArrayList<>();
-		   list1.add(20d); 
-	       list1.add(7d); 
-	       list1.add(26d); 
-		   List list2 = new ArrayList<>();
-	       list2.add(7d); 
-	       list2.add(3d); 
-	       list2.add(6d); 
-	       System.out.println("" + getPearsonBydim3(list1,list2)); //0.8多,属于高度相关
+//		   list1.add(20d); 
+//	       list1.add(7d); 
+//	       list1.add(26d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 	      
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(7d); 
+//	       list1.add(3d); 
+//	       list1.add(6d); 
+//	       list1.add(6d); 
+	       System.out.println("" + getDiscrinllnatloil(list1)); //0.8多,属于高度相关
       
 	  } 
 	//项目鉴别度分析	 
 	public static Double getDiscrinllnatloil(List<Double>list) {
-		//排序
+		if(list.size()==0) return 0.0;
+		//排序	
 	   Collections.sort(list);
 	   List list1 = new ArrayList<>();
 	   List list2 = new ArrayList<>();
@@ -30,9 +56,11 @@ public class SpssUtils {
 		   list1.add(list.get(i));//低分组27%
 	   }
 	   for(int i=0;i<highLen;i++) {
-		   list2.add(list.get(length-i));//高分组27%
+		   list2.add(list.get(length-i-1));//高分组27%
 	   }
-	   return getPearsonBydim3(list1, list2);
+	   Double res = Math.abs(getPearsonBydim3(list1, list2));
+	   if(res>1.0) res = 1.0;
+	   return res;
 	}
 	//计算Spearman相关系数
 	public static Double getPearsonBydim3(List<Double> ratingOne, List<Double> ratingTwo) {
