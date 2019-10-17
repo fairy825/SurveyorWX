@@ -55,14 +55,14 @@ public class Survey {
      * 发布时间
      */
     @Column(name = "publish_time")
-    @JsonFormat( pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat( pattern="yyyy-MM-dd HH:mm")
     private Date publishTime;
 
     /**
      * 截止时间
      */
     @Column(name = "end_time")
-    @JsonFormat( pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat( pattern="yyyy-MM-dd HH:mm")
     private Date endTime;
 
     /**
@@ -223,7 +223,7 @@ public class Survey {
      *
      * @return publish_time - 发布时间
      */
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Shanghai")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm",timezone="Asia/Shanghai")
     public Date getPublishTime() {
         return publishTime;
     }
