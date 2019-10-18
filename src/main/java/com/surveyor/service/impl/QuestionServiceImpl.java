@@ -75,7 +75,12 @@ public class QuestionServiceImpl implements QuestionService {
 		
 		PageHelper.startPage(page, pageSize);
 		List<Question> list = questionMapper.queryBySurvey(surveyId);
+		PageInfo<Question> pl = new PageInfo<>(list);
+
 		List<QuestionVO> list2= new ArrayList<>();
+		System.out.println("list:");
+		System.out.println(list);
+		System.out.println(list.size());
 
 		for(Question question:list) {
 			QuestionVO questionVO = new QuestionVO();
@@ -91,9 +96,9 @@ public class QuestionServiceImpl implements QuestionService {
 		
 		PagedResult pagedResult = new PagedResult();
 		pagedResult.setPage(page);
-		pagedResult.setTotal(pageList.getPages());
+		pagedResult.setTotal(pl.getPages());
 		pagedResult.setRows(list2);
-		pagedResult.setRecords(pageList.getTotal());
+		pagedResult.setRecords(pl.getTotal());
 		
 		return pagedResult;
 	}
@@ -101,8 +106,10 @@ public class QuestionServiceImpl implements QuestionService {
 	@Transactional(propagation= Propagation.SUPPORTS)
 	@Override
 	public PagedResult queryBySurveyWithDetect(String surveyId, Integer page, Integer pageSize) {
-		PageHelper.startPage(page, pageSize);
+		PageHelper.startPage(page, pageSize-1);
 		List<Question> list = questionMapper.queryBySurvey(surveyId);
+		PageInfo<Question> pl = new PageInfo<>(list);
+
 		List<QuestionVO> list2= new ArrayList<>();
 		Map<Integer,DetectQuestion> detectmap = new HashMap<>();//在第几题后放测谎题
 		int detect_total = detectQuestionMapper.getTotal();
@@ -143,12 +150,12 @@ public class QuestionServiceImpl implements QuestionService {
 		System.out.println(list2);
 
 		PageInfo<QuestionVO> pageList = new PageInfo<>(list2);
-		
+		int len= (int) (pl.getTotal());//原总题数
 		PagedResult pagedResult = new PagedResult();
 		pagedResult.setPage(page);
-		pagedResult.setTotal(pageList.getPages());
+		pagedResult.setTotal(len%(pageSize-1)==0?len/(pageSize-1):len/(pageSize-1)+1);//22 22/9=2+1   9 9/9=1
 		pagedResult.setRows(list2);
-		pagedResult.setRecords(pageList.getTotal());
+		pagedResult.setRecords(len+pagedResult.getTotal());
 		
 		return pagedResult;
 	}

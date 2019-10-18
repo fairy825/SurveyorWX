@@ -68,7 +68,7 @@ public class SurveyController extends BasicController {
 		survey.setStatus(0);
 		survey.setId(id);
 		;
-		surveyService.update(survey);
+		surveyService.updateS(survey);
 		return IMoocJSONResult.ok(survey);
 	}
 
@@ -93,25 +93,7 @@ public class SurveyController extends BasicController {
 		PagedResult pagedResult = surveyService.getSurveyByUser(userId, page, PAGE_SIZE);
 		return IMoocJSONResult.ok(pagedResult);
 	}
-//	@ApiOperation(value="暂停问卷", notes="暂停问卷的接口")
-//	@PostMapping("/suspend")
-//	 public IMoocJSONResult suspend(@RequestParam("surveyId")String surveyId){
-//		surveyService.suspend(surveyId);
-//		return IMoocJSONResult.ok();
-//    }
-//    //复制问卷
-//    @RequestMapping("/copySurvey")
-//    public void CopySurvey(@RequestParam("num")Integer num,
-//                           @RequestParam("status") Integer status,
-//                           @RequestParam("title")String title,
-//                           @RequestParam("like")Integer like){
-//        surveyService.copySurvey(num,status,title,like);
-//    }
 
-//    @RequestMapping("/copy")
-//    public void Copy(@RequestParam("num")Integer num, @RequestParam("like")Integer like){
-//        surveyService.copy(num, like);
-//    }
 	@ApiOperation(value = "创建问卷", notes = "创建问卷的接口")
 	@PostMapping("/add")
 	public IMoocJSONResult add(@RequestBody Survey survey, String userId) {
@@ -125,22 +107,47 @@ public class SurveyController extends BasicController {
 		return IMoocJSONResult.ok(surveyId);
 
 	}
+	@PostMapping("/publish")
+	public IMoocJSONResult publish(@RequestBody Survey survey) {
+		Survey s = surveyService.get(survey.getId());
+		surveyService.publish(s.getId());
+		return IMoocJSONResult.ok();
 
+	}
+	@PostMapping("/suspend")
+	public IMoocJSONResult suspend(@RequestBody Survey survey) {
+		Survey s = surveyService.get(survey.getId());
+		surveyService.suspend(s.getId());
+		return IMoocJSONResult.ok();
+
+	}
 	// 更新问卷
 	@ApiOperation(value = "更新问卷", notes = "更新问卷的接口")
 	@PostMapping("/update")
 	public IMoocJSONResult update(@RequestBody Survey survey) {
 		Survey s = surveyService.get(survey.getId());
+//		survey.setTitle(s.getTitle());
+//		survey.setEndTime(s.getEndTime());
+//		survey.setAnony(s.getAnony());
+//		survey.setMintime(s.getMintime());
+//		survey.setTestlie(s.getTestlie());
 		survey.setHadpaper(s.getHadpaper());
+//		survey.setDescription(s.getDescription());
+//		survey.setPrice(s.getPrice());
+//		survey.setNeedpaper(s.getNeedpaper());
 		survey.setNum(s.getNum());
 		survey.setPublishTime(s.getPublishTime());
 		survey.setStatus(s.getStatus());
 		survey.setUserid(s.getUserid());
-		surveyService.update(survey);
+		surveyService.updateS(survey);
 		return IMoocJSONResult.ok(survey);
-
 	}
-
+	@PostMapping("/stopAndStart")
+	public IMoocJSONResult stopAndStart(@RequestBody Survey survey) {
+		surveyService.updateS(survey);
+		return IMoocJSONResult.ok(survey);
+	}
+	
 	// 通过发布问卷id查找问卷
 	@ApiOperation(value = "查找问卷", notes = "查找问卷的接口")
 	@PostMapping("/queryOne")

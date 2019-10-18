@@ -13,9 +13,11 @@ public interface SurveyService {
     String add(Survey s);
     void delete(int id);
     void update(Survey s);
+    void publish(String id);
     Survey get(String id);
     void suspend(String id);
     void addPaper(String id);
+    public void updateS(Survey s);
 //    boolean end(String id);
     public void updateStatus();
 

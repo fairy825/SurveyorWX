@@ -310,7 +310,7 @@ public class Survey {
     /**
      * @param testlie
      */
-    public void settestlie(Boolean testlie) {
+    public void setTestlie(Boolean testlie) {
         this.testlie = testlie;
     }
     public Integer getMintime() {

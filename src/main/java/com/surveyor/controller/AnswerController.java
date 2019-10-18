@@ -70,7 +70,8 @@ public class AnswerController extends BasicController {
 		String start = redis.get(START_TIME + ":" + userId);
 		long ansTime = end - Long.valueOf(start);
 		Survey survey = surveyService.get(surveyId);
-		int minTime = survey.getMintime();
+		int minTime = 0;
+		if(survey.getMintime()!=null) minTime=survey.getMintime();
 		if (ansTime <= 1000 * 60 * minTime)
 			return IMoocJSONResult.errorMsg("提交过快，请认真填写！");
 

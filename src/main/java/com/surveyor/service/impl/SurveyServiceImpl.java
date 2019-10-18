@@ -152,6 +152,17 @@ public class SurveyServiceImpl implements SurveyService {
 		surveyMapper.updateByPrimaryKey(s);
     }
 	
+	@Transactional(propagation= Propagation.REQUIRED)
+    @Override
+    public void updateS(Survey s) {
+		surveyMapper.updateByPrimaryKeySelective(s);
+    }
+	@Transactional(propagation= Propagation.REQUIRED)
+    @Override
+    public void publish(String id) {
+		surveyMapper.publish(id);
+    }
+
 	@Transactional(propagation= Propagation.SUPPORTS)
     @Override
     public Survey get(String id) {
