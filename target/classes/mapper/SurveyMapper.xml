@@ -35,7 +35,10 @@
   <update id="addPaper" parameterType="String">
   	update survey set hadPaper=hadPaper+1 where id=#{id}
   </update>
-  
+   <update id="publish" parameterType="String">
+  	update survey set status=1 where id=#{id}
+  </update>
+
   <select id="queryByUser" resultMap="BaseResultMap" parameterType="String">
   
   	select * from survey s

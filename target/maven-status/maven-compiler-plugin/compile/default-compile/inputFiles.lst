@@ -1,5 +1,6 @@
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\mapper\QuestionMapper.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\BasicController.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\StatisticsService.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\interceptor\SurveyStatusInterceptor.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\QuestionController.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\pojo\Survey.java
@@ -23,6 +24,7 @@ D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\utils\MD5Utils.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\QuestionService.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\impl\DetectQuestionServiceImpl.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\interceptor\MiniInterceptor.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\pojo\vo\QuestionStatistics.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\strategy\DefaultRandomCodeStrategy.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\Sid.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\impl\TipServiceImpl.java
@@ -39,6 +41,8 @@ D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\mapper\AnswerMapperCusto
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\utils\Serializes.java
 D:\eclipseProject\SurveyorWX\src\main\java\comparator\SurveyPriceComparator.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\mapper\AnswerMapper.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\StatisticsController.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\impl\StatisticsServiceImpl.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\mapper\TipMapper.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\SurveyController.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\service\impl\UserServiceImpl.java
@@ -53,6 +57,7 @@ D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\AnswerControl
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\InvalidSystemClock.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\utils\Props.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\pojo\Question.java
+D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\pojo\vo\StatisticsVO.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\utils\Utils.java
 D:\eclipseProject\SurveyorWX\src\main\java\org\n3r\idworker\Code.java
 D:\eclipseProject\SurveyorWX\src\main\java\com\surveyor\controller\HelloWorldController.java

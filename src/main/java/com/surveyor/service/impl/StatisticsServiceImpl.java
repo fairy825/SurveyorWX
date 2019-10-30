@@ -56,15 +56,21 @@ public class StatisticsServiceImpl implements StatisticsService {
 					max=question.getUpscale();
 				}
 				for (int i = 0; i <= max; i++) {
-
-					Map map=result.get(i);
-						if (!map.get("name").equals(i + "")) {
-							Map<String, Object> map1 = new HashMap();
-							map1.put("name", i+"");
-							map1.put("value", 0);
-							result.add(i,map1);
-						}
-				}
+					   if(i>=result.size()){
+					      Map<String, Object> map1 = new HashMap();
+					      map1.put("name", i+"");
+					      map1.put("value", 0);
+					      result.add(i,map1);
+					   }else {
+					      Map map = result.get(i);
+					      if (!map.get("name").equals(i + "")) {
+					         Map<String, Object> map1 = new HashMap();
+					         map1.put("name", i + "");
+					         map1.put("value", 0);
+					         result.add(i, map1);
+					      }
+					   }
+					}
 				int total=0;
 				for (Map map:result){
 					String str = map.get("name")+"";

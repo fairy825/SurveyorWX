@@ -90,9 +90,8 @@ public class QuestionController extends BasicController{
 		Question q = questionService.get(question.getId());
 		question.setSequence(q.getSequence());
 		question.setSurveyid(q.getSurveyid());
-		questionService.update(question);
+		questionService.updateQ(question);
 		return IMoocJSONResult.ok(question);
-
     }
 	//通过发布问卷id查找问题 回答问题页面
 	@ApiOperation(value="查找某一张问卷下的问题", notes="查找某问卷下的所有问题的接口")

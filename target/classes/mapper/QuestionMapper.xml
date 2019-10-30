@@ -20,28 +20,28 @@
     <result column="lowLimit" jdbcType="INTEGER" property="lowlimit" />
     <result column="upScale" jdbcType="INTEGER" property="upscale" />
     <result column="lowScale" jdbcType="INTEGER" property="lowscale" />
-    
+
   </resultMap>
     <select id="getTotalBySurvey" resultType="Integer" parameterType="String">
-  
+
   	select count(*) from question q
-  	where 
+  	where
   	    surveyid = #{surveyId}
-  
+
   </select>
       <select id="queryBySurvey" resultMap="BaseResultMap"  parameterType="String">
-  
+
   	select * from question q
-  	where 
+  	where
   	    surveyid = #{surveyId}
-  
+
   </select>
   <select id="getQuestionIdBySurveyAndSequency" resultType="String">
-  
+
   	select id from question q
-  	where 
+  	where
   	    surveyid = #{surveyId}
   	    and sequence= #{sequence}
-  
+
   </select>
 </mapper>

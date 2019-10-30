@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -49,14 +50,37 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionMapper.getTotalBySurvey(surveyId);
 	}
 	
+	private int getMax(Question question) {
+		if (!StringUtils.isEmpty(question.getChoicea())) {
+			if (!StringUtils.isEmpty(question.getChoiceb())) {
+				if (!StringUtils.isEmpty(question.getChoicec())) {
+					if (!StringUtils.isEmpty(question.getChoiced())) {
+						if (!StringUtils.isEmpty(question.getChoicee())) {
+							return 4;
+						} else return 3;
+					} else return 2;
+				} else return 1;
+			} else return 0;
+		}
+		return -1;
+	}
+	
 	@Transactional(propagation= Propagation.REQUIRED)
 	@Override
 	public String add(Question question) {
 		String id = sid.nextShort();
 		question.setId(id);
+		if(question.getLowlimit()==0&&question.getMust()==true) {
+			question.setLowlimit(1);
+		}
+		if(question.getUplimit()==0) {
+			int len = getMax(question)+1;
+			question.setUplimit(len);
+		}
 		questionMapper.insert(question);
 		return id;
 	}
+	
 	@Transactional(propagation= Propagation.REQUIRED)
 	@Override
 	public void delete(String id) {
@@ -171,6 +195,20 @@ public class QuestionServiceImpl implements QuestionService {
 	public void update(Question question) {
 		questionMapper.updateByPrimaryKey(question);
 	}
+	
+	@Transactional(propagation= Propagation.REQUIRED)
+	@Override
+	public void updateQ(Question question) {
+		if(question.getLowlimit()==0&&question.getMust()==true) {
+			question.setLowlimit(1);
+		}
+		if(question.getUplimit()==0) {
+			int len = getMax(question)+1;
+			question.setUplimit(len);
+		}
+		questionMapper.updateByPrimaryKey(question);
+	}
+	
 	@Transactional(propagation= Propagation.REQUIRED)
 	@Override
 	public String getQuestionIdBySurveyAndSequency(String surveyId,Integer sequence) {

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.surveyor.mapper.SurveyMapper">
+  <resultMap id="BaseResultMap" type="com.surveyor.pojo.Survey">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="userId" jdbcType="VARCHAR" property="userid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="needPaper" jdbcType="INTEGER" property="needpaper" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="hadPaper" jdbcType="INTEGER" property="hadpaper" />
+    <result column="anony" property="anony" jdbcType="BIT" />
+    <result column="testLie" property="testlie" jdbcType="BIT" />
+    <result column="minTime" property="mintime" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="queryAllSurvey" resultMap="BaseResultMap" parameterType="String">
+  
+  	select * from survey s
+  	where 
+  	    1 = 1
+  		<if test="title!=null and title!=''">
+  		and title like '%${title}%'
+  		</if>
+  		and status = 1
+  	order by publish_time desc
+  
+  </select> 
+  <update id="addPaper" parameterType="String">
+  	update survey set hadPaper=hadPaper+1 where id=#{id}
+  </update>
+   <update id="publish" parameterType="String">
+  	update survey set status=1 where id=#{id}
+  </update>
+
+  <select id="queryByUser" resultMap="BaseResultMap" parameterType="String">
+  
+  	select * from survey s
+  	where 
+  	    userid = #{userId}
+  		and status != 0
+  	order by publish_time desc
+  
+  </select> 
+  <select id="queryByUserAndStatus" resultMap="BaseResultMap">
+  
+  	select * from survey s
+  	where 
+  	    userid = #{userId}
+  		and status = #{status}
+  	order by publish_time desc
+  
+  </select> 
+  <update id="stopSurvey" parameterType="String">
+  
+  	update survey 
+  	set status = 2
+  	where id = #{id}
+  
+  </update> 
+</mapper>

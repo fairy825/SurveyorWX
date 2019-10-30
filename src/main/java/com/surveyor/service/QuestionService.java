@@ -19,6 +19,7 @@ public interface QuestionService {
     Question get(String id);
     void update(Question question);
     void delete(String id);
+	public void updateQ(Question question);
     public String getQuestionIdBySurveyAndSequency(String surveyId,Integer sequence);
 
 }

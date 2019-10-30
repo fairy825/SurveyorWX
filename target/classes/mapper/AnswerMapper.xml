@@ -12,14 +12,33 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="userId" jdbcType="VARCHAR" property="userid" />
   </resultMap>
-  
+
    <select id="selectBySurveyIdAndUserId" resultMap="BaseResultMap"  parameterType="String">
-  
+
   	select * from answer
-  	where 
+  	where
   	    surveyid = #{surveyId}
   	    and userid = #{userId}
-  
+
+  </select>
+
+    <select id="selectByQuestionId" resultMap="BaseResultMap"  parameterType="String">
+
+  	select * from answer a left join question q on a.questionId=q.id
+  	where
+  	    a.questionId = #{questionId,jdbcType=VARCHAR}
+  	    and
+  	    <if test="type!=null">
+  	    q.type=#{type,jdbcType=VARCHAR}
+        </if>
+  </select>
+
+    <select id="getOne" resultType="java.util.HashMap"  parameterType="String">
+    SELECT count(*) as 'value',content as 'name'
+    from answer
+    WHERE questionId = #{questionId,jdbcType=VARCHAR}
+    GROUP BY content
+    order by content
   </select>
 
 </mapper>
