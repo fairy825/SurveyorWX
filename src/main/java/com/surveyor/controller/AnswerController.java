@@ -1,6 +1,7 @@
 package com.surveyor.controller;
 
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.util.StringUtil;
 import com.surveyor.pojo.Answer;
 import com.surveyor.pojo.DetectQuestion;
 import com.surveyor.pojo.Question;
@@ -98,6 +100,7 @@ public class AnswerController extends BasicController {
 				Answer answer = new Answer();
 				answer.setSurveyid(surveyId);
 				answer.setUserid(userId);
+				if(q.getType().equals("scale")&&StringUtils.isBlank(an)) an="0";
 				answer.setContent(an);
 				answer.setSequence(0);
 				answer.setQuestionid(questionId);
