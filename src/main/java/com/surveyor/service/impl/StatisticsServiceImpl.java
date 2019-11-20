@@ -83,13 +83,19 @@ public class StatisticsServiceImpl implements StatisticsService {
 				double avg=0;
 				for (Map map:result){
 					int value = 0;
-					if(map.get("value")!=null) {
+					Double b;
+					if(map.get("value")!=null&&total>0) {
 					value=Integer.valueOf(map.get("value").toString());
+					b=new BigDecimal((double)value/(double)total*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
 					}
-					Double b=new BigDecimal((double)value/(double)total*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+					else b=0d;
 					if(type.equals(QuestionService.scale)){
 						int name=Integer.valueOf(map.get("name").toString());
-						avg+=new BigDecimal((double) name*(double) value/(double) total).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+						if(total>0) {
+
+
+							avg += new BigDecimal((double) name * (double) value / (double) total).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+						}else avg+=0;
 					}
 					map.put("percent",b);
 				}
@@ -153,7 +159,11 @@ public class StatisticsServiceImpl implements StatisticsService {
 				}
 				for (Map map:choiceCount){
 					int value=Integer.valueOf(map.get("value").toString());
-					Double b=new BigDecimal((double)value/(double)total*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+					Double b;
+					if(total>0){
+						b=new BigDecimal((double)value/(double)total*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+
+					}else b=0d;
 					map.put("percent",b);
 				}
 				questionStatistics.setChoiceList(choiceCount);
