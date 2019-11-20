@@ -25,7 +25,18 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(miniInterceptor()).addPathPatterns("/user/**");
+		registry.addInterceptor(miniInterceptor()).addPathPatterns("/user/**")
+		.addPathPatterns("/statistics/**")
+		.addPathPatterns("/survey/**")
+		.addPathPatterns("/question/**")
+		.addPathPatterns("/answer/**")
+		.excludePathPatterns("/survey/queryOne")
+		.excludePathPatterns("/survey/showAll")
+		.excludePathPatterns("/survey/getTip")
+		.excludePathPatterns("/survey/hot")
+		.excludePathPatterns("/question/queryAll")
+		.excludePathPatterns("/question/queryAllEasy")
+		.excludePathPatterns("/question/queryOne");
 		registry.addInterceptor(surveyStatusInterceptor()).addPathPatterns("/survey/**");
 		super.addInterceptors(registry);
 	}
