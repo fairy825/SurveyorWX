@@ -82,7 +82,10 @@ public class StatisticsServiceImpl implements StatisticsService {
 				}
 				double avg=0;
 				for (Map map:result){
-					int value=Integer.valueOf(map.get("value").toString());
+					int value = 0;
+					if(map.get("value")!=null) {
+					value=Integer.valueOf(map.get("value").toString());
+					}
 					Double b=new BigDecimal((double)value/(double)total*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
 					if(type.equals(QuestionService.scale)){
 						int name=Integer.valueOf(map.get("name").toString());

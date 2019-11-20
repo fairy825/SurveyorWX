@@ -26,7 +26,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(miniInterceptor()).addPathPatterns("/user/**")
-		.addPathPatterns("/statistics/**")
+//		.addPathPatterns("/statistics/**")
 		.addPathPatterns("/survey/**")
 		.addPathPatterns("/question/**")
 		.addPathPatterns("/answer/**")
